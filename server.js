@@ -141,29 +141,27 @@ router.route('/movies')
             else
                 res.json({msg :"The movie has been deleted"})
         })
-    })
+    });
 
-    // Update a movie
+router.route('/movie/:id')
     .put(authJwtController.isAuthenticated, function (req, res) {
         var conditions = {_id: req.params.id};
         Movie.findOne({title: req.body.title}, function(err, found) {
             if (err) {
-                res.json({message: "Error updating movie. \n", error: err});
+                res.json({message: "Read error \n", error: err});
             }
-
             else {
                 Movie.updateOne(conditions, req.body)
                     .then(mov => {
                         if (!mov) {
                             return res.status(404).end();
                         }
-                        return res.status(200).json({msg: "Movie is updated"})
+                        return res.status(200).json({msg: "The movie has been updated."})
                     })
                     .catch(err => console.log(err))
             }
         })
     });
-
 
 
 
