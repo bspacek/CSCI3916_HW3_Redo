@@ -84,78 +84,89 @@ router.post('/signin', function (req, res) {
         })
     })
 });
+
 router.route('/movies')
+
+    // Return all movies in the DB.
     .get(authJwtController.isAuthenticated, function (req, res) {
-            console.log(req.body);
-            Movie.find({}, function (err, movies) {
-                if (err) {
-                    res = res.status(400);
-                    return res.json(err);
-                }
-                console.log(movies);
-                res = res.status(200);
-                if (req.get('Content-Type')) {
-                    res = res.type(req.get('Content-Type'));
-                }
-                res.json(movies);
-            })
-        }
-    )
-    .delete(authJwtController.isAuthenticated, function(req, res) {
-            console.log(req.body);
-            res = res.status(200);
-            if (req.get('Content-Type')) {
-                res = res.type(req.get('Content-Type'));
-            }
-            Movie.findOneAndDelete({title: req.body.title}, function (err){
-                if (err) {
-                    res = res.status(400);
-                    return res.json(err);
-                }
-                res.json({success: true, msg: 'Successfully Deleted A Movie.'})
-            })
-        }
-    )
+        Movie.find(function (err, movie) {
+            if(err) res.json({message: "Error returning movies. \n", error: err});
+            res.json(movie);
+        })
+    })
 
-    .put(authJwtController.isAuthenticated, function(req, res) {
-            console.log(req.body);
-            res = res.status(200);
-            if (req.get('Content-Type')) {
-                res = res.type(req.get('Content-Type'));
-            }
-            Movie.findOneAndUpdate({title: req.body.title}, {genre: req.body.genre}, function (err){
-                if (err) {
-                    res = res.status(400);
-                    return res.json(err);
-                }
-                res.json({success: true, msg: 'Successfully Changed The Genre.'})
-            })
-        }
-    )
-
+    // Save a new movie to the database
     .post(authJwtController.isAuthenticated, function (req, res) {
         console.log(req.body);
-        res = res.status(200);
-        if (req.get('Content-Type')) {
-            res = res.type(req.get('Content-Type'));
-        }
-
-        let movie = new Movie();
+        var movie = new Movie();
         movie.title = req.body.title;
-        movie.year = req.body.year;
+        movie.yearReleased = req.body.yearReleased;
         movie.genre = req.body.genre;
         movie.actors = req.body.actors;
 
-
-        movie.save(function (err) {
-                if (err) {
-                    res = res.status(400);
-                    return res.json(err);
-                }
-                res.json({success: true, msg: 'Successfully Added A Movie.'})
+        Movie.findOne({title: req.body.title}, function(err, found){
+            if(err){
+                res.json({message: "Error saving movie. \n", error: err});
             }
-        )
+            else if(found){
+                res.json({message: "The movie already exists."});
+            }
+            else if (movie.actors.length < 3){
+                res.json({message: "Must have at least 3 actors"});
+            }
+            else{
+                movie.save(function (err) {
+                    if(err){
+                        res.json({message: "Error saving movie. \n", error: err});
+                    }
+                    else{
+                        res.json({message: "Movie has been saved."});
+                    }
+                })
+            }
+        });
     })
+
+    // Delete one movie.
+    .delete(authJwtController.isAuthenticated, function (req, res){
+        Movie.findOneAndDelete({title: req.body.title}, function (err, movie) {
+            if (err)
+            {
+                res.status(400).json({message: "Error deleting movie.", msg: err})
+            }
+            else if(movie == null)
+            {
+                res.json({msg : "Error deleting movie. Title was not found."})
+            }
+            else
+                res.json({msg :"The movie has been deleted"})
+        })
+    })
+
+    // Update a movie
+    .put(authJwtController.isAuthenticated, function (req, res) {
+        var conditions = {_id: req.params.id};
+        Movie.findOne({title: req.body.title}, function(err, found) {
+            if (err) {
+                res.json({message: "Error updating movie. \n", error: err});
+            }
+
+            else {
+                Movie.updateOne(conditions, req.body)
+                    .then(mov => {
+                        if (!mov) {
+                            return res.status(404).end();
+                        }
+                        return res.status(200).json({msg: "Movie is updated"})
+                    })
+                    .catch(err => console.log(err))
+            }
+        })
+    });
+
+
+
+
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
