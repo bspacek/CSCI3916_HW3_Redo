@@ -104,11 +104,11 @@ router.route('/movies')
         movie.genre = req.body.genre;
         movie.actors = req.body.actors;
 
-        Movie.findOne({title: req.body.title}, function(err, found){
+        Movie.findOne({title: req.body.title}, function(err, fnd){
             if(err){
                 res.json({message: "Error saving movie. \n", error: err});
             }
-            else if(found){
+            else if(fnd){
                 res.json({message: "The movie already exists."});
             }
             else if (movie.actors.length < 3){
@@ -141,17 +141,16 @@ router.route('/movies')
             else
                 res.json({msg :"The movie has been deleted"})
         })
-    });
+    })
 
-router.route('/movie/:id')
+    // Update a movie.
     .put(authJwtController.isAuthenticated, function (req, res) {
-        var conditions = {_id: req.params.id};
-        Movie.findOne({title: req.body.title}, function(err, found) {
+        Movie.findOne({title: req.body.title}, function(err, fnd) {
             if (err) {
-                res.json({message: "Read error \n", error: err});
+                res.json({message: "Error updating movie. \n", error: err});
             }
             else {
-                Movie.updateOne(conditions, req.body)
+                Movie.updateOne(req.body.title, req.body)
                     .then(mov => {
                         if (!mov) {
                             return res.status(404).end();
@@ -162,8 +161,6 @@ router.route('/movie/:id')
             }
         })
     });
-
-
 
 
 app.use('/', router);
