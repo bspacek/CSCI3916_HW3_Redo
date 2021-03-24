@@ -145,30 +145,37 @@ router.route('/movies')
 
     // Update a movie.
     .put(authJwtController.isAuthenticated, function (req, res) {
-//
-        Movie.updateOne({title: req.body.title}, {
-            yearReleased: req.body.yearReleased,
-            genre: req.body.genre,
-            actor: req.body.actor
 
-        })
-/*
-        Movie.findOne({title: req.body.title}, function(err, fnd) {
-            if (err) {
-                res.json({message: "Error updating the movie. \n", error: err});
+        Movie.findOneAndUpdate({tittle: req.body.title}, req.body, {new: true}, function(err, doc){
+            if (err){
+                console.log(err);
             }
             else {
-                Movie.updateOne({title: fnd.body._id}, req.body)
+                return res.status(200).json({msg: "Movie is updated"})
+            }
+        })
+        /*
+        Movie.findOneAndUpdate({title: req.body.title}, req.body, {new: true}, function(err, doc))
+
+        var conditions = {_id: req.params.id};
+        Movie.findOne({title: req.body.title}, function(err, found) {
+            if (err) {
+                res.json({message: "Read error \n", error: err});
+            }
+
+            else {
+                Movie.updateOne(conditions, req.body)
                     .then(mov => {
                         if (!mov) {
                             return res.status(404).end();
                         }
-                        return res.status(200).json({msg: "The movie has been updated."})
+                        return res.status(200).json({msg: "Movie is updated"})
                     })
                     .catch(err => console.log(err))
             }
         })
-        */
+
+         */
     });
 /*
 //update movie
