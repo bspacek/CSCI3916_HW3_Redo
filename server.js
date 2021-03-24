@@ -146,7 +146,7 @@ router.route('/movies')
     // Update a movie.
     .put(authJwtController.isAuthenticated, function (req, res) {
 
-        Movie.replaceOne({title: req.body.title}, req.body, null, function(err, res) {
+        Movie.updateOne({title: req.body.title}, req.body, function(err, res) {
             if (err) {
                 return res.json({msg: "Error updating movie. \n", error: err});
             }
@@ -155,65 +155,8 @@ router.route('/movies')
             }
         })
 
-        /*
-        Movie.findOneAndUpdate({tittle: req.body.title}, {yearReleased: req.body.yearReleased, genre: req.body.genre}, {new: true}, function(err, doc){
-            if (err){
-                console.log(err);
-            }
-            else {
-                return res.status(200).json({msg: "Movie is updated"})
-            }
-        })
-
-         */
-
-
-        /*
-        Movie.findOneAndUpdate({title: req.body.title}, req.body, {new: true}, function(err, doc))
-
-        var conditions = {_id: req.params.id};
-        Movie.findOne({title: req.body.title}, function(err, found) {
-            if (err) {
-                res.json({message: "Read error \n", error: err});
-            }
-
-            else {
-                Movie.updateOne(conditions, req.body)
-                    .then(mov => {
-                        if (!mov) {
-                            return res.status(404).end();
-                        }
-                        return res.status(200).json({msg: "Movie is updated"})
-                    })
-                    .catch(err => console.log(err))
-            }
-        })
-
-         */
     });
-/*
-//update movie
-router.route('/movie/:id')
-    .put(authJwtController.isAuthenticated, function (req, res) {
-        var conditions = {_id: req.params.id};
-        Movie.findOne({title: req.body.title}, function(err, found) {
-            if (err) {
-                res.json({message: "Read error \n", error: err});
-            }
 
-            else {
-                Movie.updateOne(conditions, req.body)
-                    .then(mov => {
-                        if (!mov) {
-                            return res.status(404).end();
-                        }
-                        return res.status(200).json({msg: "Movie is updated"})
-                    })
-                    .catch(err => console.log(err))
-            }
-        })
-    });
-*/
 
 app.use('/', router);
 app.listen(process.env.PORT || 8080);
