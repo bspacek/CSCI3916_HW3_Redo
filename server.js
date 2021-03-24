@@ -146,15 +146,14 @@ router.route('/movies')
     // Update a movie.
     .put(authJwtController.isAuthenticated, function (req, res) {
 
-        Movie.updateOne({title: req.body.title}, req.body, function(err, res) {
+        Movie.updateOne({title: req.body.title}, req.body, null, function(err, res) {
             if (err) {
-                return res.json({msg: "Error updating movie. \n", error: err});
+                res.status(400).json({message: "Error updating movie.", msg: err})
             }
             else {
-                return res.status(200).json({msg: "Movie is updated"})
+                res.status(200).json({msg: "Movie is updated"})
             }
         })
-
     });
 
 
