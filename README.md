@@ -1,6 +1,5 @@
 # CSCI3916_HW3_Redo
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/7df9ce3bc8d3de4198ce#?env%5BCSCI3916_HW3_Redo%5D=W3sia2V5IjoidG9rZW4iLCJ2YWx1ZSI6IkpXVCBleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKcFpDSTZJall3TldFMVl6QTBNR0prTldFME1EQXdOREl5TnpCaFlTSXNJblZ6WlhKdVlXMWxJam9pVkdWemRGVnpaWEpPWVcxbElpd2lhV0YwSWpveE5qRTJOakUzT0RjMmZRLm52VDRHY2psNHlOQnlqdjRFS2Z3VVFxS3Y1Tk1ZOHp5aEZsazM5OGxRbmMiLCJlbmFibGVkIjp0cnVlfV0=)
 
 # REACT WEBPAGE LINK:
 https://csci3916-hw5-spacek.herokuapp.com/#/signin
-
-[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/7df9ce3bc8d3de4198ce#?env%5BCSCI3916_HW3_Redo%5D=W3sia2V5IjoidG9rZW4iLCJ2YWx1ZSI6IkpXVCBleUpoYkdjaU9pSklVekkxTmlJc0luUjVjQ0k2SWtwWFZDSjkuZXlKcFpDSTZJall3TldFMVl6QTBNR0prTldFME1EQXdOREl5TnpCaFlTSXNJblZ6WlhKdVlXMWxJam9pVkdWemRGVnpaWEpPWVcxbElpd2lhV0YwSWpveE5qRTJOakUzT0RjMmZRLm52VDRHY2psNHlOQnlqdjRFS2Z3VVFxS3Y1Tk1ZOHp5aEZsazM5OGxRbmMiLCJlbmFibGVkIjp0cnVlfV0=)
