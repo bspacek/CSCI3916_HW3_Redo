@@ -146,7 +146,12 @@ router.route('/movies')
     // Update a movie.
     .put(authJwtController.isAuthenticated, function (req, res) {
 //
-        Movie.findOneAndUpdate({title: req.body.title}, req.body)
+        Movie.updateOne({title: req.body.title}, {
+            yearReleased: req.body.yearReleased,
+            genre: req.body.genre,
+            actor: req.body.actor
+
+        })
 /*
         Movie.findOne({title: req.body.title}, function(err, fnd) {
             if (err) {
