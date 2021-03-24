@@ -106,18 +106,18 @@ router.route('/movies')
 
         Movie.findOne({title: req.body.title}, function(err, fnd){
             if(err){
-                res.json({message: "Error saving movie. \n", error: err});
+                return res.json({message: "Error saving movie. \n", error: err});
             }
             else if(fnd){
-                res.json({message: "The movie already exists."});
+                return res.json({message: "The movie already exists."});
             }
             else if (movie.actors.length < 3){
-                res.json({message: "Must have at least 3 actors"});
+                return res.json({message: "Must have at least 3 actors"});
             }
             else{
                 movie.save(function (err) {
                     if(err){
-                        res.json({message: "Error saving movie. \n", error: err});
+                        return res.json({message: "Error saving movie. \n", error: err});
                     }
                     else{
                         res.json({message: "Movie has been saved."});
@@ -136,7 +136,7 @@ router.route('/movies')
             }
             else if(movie == null)
             {
-                res.json({msg : "Error deleting movie. Title was not found."})
+                return res.json({msg : "Error deleting movie. Title was not found."})
             }
             else
                 res.json({msg :"The movie has been deleted"})
@@ -148,10 +148,10 @@ router.route('/movies')
 
         Movie.updateOne({title: req.body.title}, req.body, null, function(err, res) {
             if (err) {
-                res.status(400).json({message: "Error updating movie.", msg: err})
+                return res.status(400).json({message: "Error updating movie.", msg: err})
             }
             else {
-                res.status(200).json({msg: "Movie is updated"})
+                return res.status(200).json({msg: "Movie is updated"})
             }
         })
     });
