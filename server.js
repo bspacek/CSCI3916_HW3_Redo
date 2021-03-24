@@ -145,6 +145,23 @@ router.route('/movies')
 
     // Update a movie.
     .put(authJwtController.isAuthenticated, function (req, res) {
+            console.log(req.body);
+            res = res.status(200);
+            if (req.get('Content-Type')) {
+                res = res.type(req.get('Content-Type'));
+            }
+            Movie.findOneAndUpdate({title: req.body.title}, req.body, function (err) {
+                if (err) {
+                    res = res.status(400);
+                    return res.json(err);
+                }
+                res.json({success: true, msg: 'Movie has been updated.'})
+            })
+        }
+    )
+
+    /*
+    .put(authJwtController.isAuthenticated, function (req, res) {
 
         Movie.updateOne({title: req.body.title}, req.body, null, function(err, res) {
             if (err) {
@@ -155,6 +172,8 @@ router.route('/movies')
             }
         })
     });
+
+     */
 
 
 app.use('/', router);
