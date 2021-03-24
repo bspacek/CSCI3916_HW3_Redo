@@ -146,6 +146,16 @@ router.route('/movies')
     // Update a movie.
     .put(authJwtController.isAuthenticated, function (req, res) {
 
+        Movie.replaceOne({title: req.body.title}, req.body, null, function(err, res) {
+            if (err) {
+                return res.json({msg: "Error updating movie. \n", error: err});
+            }
+            else {
+                return res.status(200).json({msg: "Movie is updated"})
+            }
+        })
+
+        /*
         Movie.findOneAndUpdate({tittle: req.body.title}, {yearReleased: req.body.yearReleased, genre: req.body.genre}, {new: true}, function(err, doc){
             if (err){
                 console.log(err);
@@ -154,6 +164,10 @@ router.route('/movies')
                 return res.status(200).json({msg: "Movie is updated"})
             }
         })
+
+         */
+
+
         /*
         Movie.findOneAndUpdate({title: req.body.title}, req.body, {new: true}, function(err, doc))
 
